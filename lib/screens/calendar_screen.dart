@@ -42,11 +42,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
     setState(() {
       _taskList = tasks;
     });
-  }
-
-  void _updateTaskCompletion(TaskItem task, bool? isCompleted) async {
-    task.isCompleted = isCompleted ?? false;
-    await _hiveHelper.updateTask(task.key as int, task);
     setState(() {
       _taskList.sort((a, b) {
         if (a.isCompleted && !b.isCompleted) return 1;
@@ -54,6 +49,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
         return 0;
       });
     });
+  }
+
+  void _updateTaskCompletion(TaskItem task, bool? isCompleted) async {
+    task.isCompleted = isCompleted ?? false;
+    await _hiveHelper.updateTask(task.key as int, task);
+    _loadTasks();
   }
 
   void _deleteTask(TaskItem task) async {
@@ -103,16 +104,24 @@ class _CalendarScreenState extends State<CalendarScreen> {
               ),
             ),
             const SizedBox(height: 16,),
-            Container(color: backgroundColor,
-            child: Row (
-              children: [
-                SizedBox(width: _screenwidth * 0.16,),
-                Text(
-                  '일정',
-                  style: TextStyle(),
-                ),
-              ],
+            Container(
+              color: backgroundColor,
+              child: Row (
+                children: [
+                  SizedBox(width: _screenwidth * 0.16,),
+                  Text(
+                    'TO-DO',
+                    style: TextStyle(),
+                  ),
+                ],
+              ),
             ),
+            const Padding(
+              padding: EdgeInsets.only(
+                left: 12.0,
+                right: 12.0,
+              ),
+              child: Divider(color: gray, thickness: 0.6,),
             ),
             Expanded(
               child: Container(

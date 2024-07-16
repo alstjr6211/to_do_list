@@ -19,7 +19,7 @@ class Appbarcontainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 40,
+      height: 52,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

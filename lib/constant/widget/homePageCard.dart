@@ -18,11 +18,21 @@ class HomePageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(4.0),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: white,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 1.5,
+              spreadRadius: 1.5,
+              color: gray, //TODO shadow설정 필요,
+              offset: Offset(0, 1),
+            )
+          ]
         ),
-        child: ListTile(
+        child:  ListTile(
           leading: Checkbox(
             value: task.isCompleted,
             onChanged: (value) {
@@ -40,8 +50,7 @@ class HomePageCard extends StatelessWidget {
             '${task.deadLine.toLocal()}'.split(' ')[0],
             //TODO font style
           ),
-          tileColor: white,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0.8),
           visualDensity: VisualDensity.compact,
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
@@ -61,7 +70,7 @@ class HomePageCard extends StatelessWidget {
             ],
           ),
         ),
-      ),
+      )
     );
   }
 

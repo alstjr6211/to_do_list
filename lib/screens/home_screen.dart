@@ -73,11 +73,11 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Appbarcontainer(title: 'TODO', screenheight: _screenheight,),
-                textDividor('오늘의 할 일', _screenwidth),
+                Appbarcontainer(title: 'TODAY', screenheight: _screenheight,),
+                textDividor('TO-DO-Today', _screenwidth),
                 _buildTaskList(_incompTasks),
                 const SizedBox(height: 16,),
-                textDividor('오늘 한 일', _screenwidth),
+                textDividor('Done', _screenwidth),
                 _buildTaskList(_compTasks),
               ],
             ),

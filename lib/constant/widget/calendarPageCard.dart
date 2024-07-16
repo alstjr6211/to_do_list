@@ -17,10 +17,20 @@ class CalendarPageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
+      padding: const EdgeInsets.all(2.0),
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        decoration: BoxDecoration(
+          color: white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: gray, //TODO shadow색 지정필요
+              blurRadius: 2,
+              spreadRadius: 2,
+              offset: Offset(0, 1),
+            ),
+          ],
         ),
         child: ListTile(
           leading: Checkbox(
@@ -38,10 +48,9 @@ class CalendarPageCard extends StatelessWidget {
             ),
           ),
           subtitle: Text(
-            '${task.deadLine.toLocal()}'.split(' ')[0],
+            '마감일 : ' + '${task.deadLine.toLocal()}'.split(' ')[0],
             //TODO font style
           ),
-          tileColor: white,
           contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           visualDensity: VisualDensity.compact,
           trailing: Row(
@@ -63,6 +72,7 @@ class CalendarPageCard extends StatelessWidget {
           ),
         ),
       ),
+
     );
   }
 
