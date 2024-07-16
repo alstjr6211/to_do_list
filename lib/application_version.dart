@@ -1,0 +1,1 @@
+String application_version = '1.0.0';

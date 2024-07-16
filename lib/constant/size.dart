@@ -1,0 +1,1 @@
+const bottomBarIconSize = 24.0;
