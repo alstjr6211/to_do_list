@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-
 import 'package:to_do_list/constant/bottomNavigationBar.dart';
 import 'package:to_do_list/constant/color.dart';
 
 import '../constant/widget/appBarContainer.dart';
 import '../constant/widget/calendarPageCard.dart';
 import '../constant/widget/calendarStyle.dart';
-
 
 import '../data/hive_helper.dart';
 import '../data/task_item.dart';
@@ -22,27 +20,20 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
-
   final HiveHelper _hiveHelper = HiveHelper();
-
   DateTime _selectedDate = DateTime.now();
-
-
-
   List<TaskItem> _taskList = [];
-
 
   @override
   void initState() {
     super.initState();
     _loadTasks();
   }
-  Future <void> _loadTasks() async {
+
+  Future<void> _loadTasks() async {
     final tasks = await _hiveHelper.getAllTasks();
     setState(() {
       _taskList = tasks;
-    });
-    setState(() {
       _taskList.sort((a, b) {
         if (a.isCompleted && !b.isCompleted) return 1;
         if (!a.isCompleted && b.isCompleted) return -1;
@@ -62,11 +53,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
     _loadTasks();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
-
     final _screenwidth = MediaQuery.of(context).size.width;
     final _screenheight = MediaQuery.of(context).size.height;
 
@@ -74,9 +62,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
       child: Scaffold(
         backgroundColor: backgroundColor,
         body: Column(
-          mainAxisSize: MainAxisSize.min,
           children: [
-            Appbarcontainer(title: '일정', screenheight: _screenheight,),
+            Appbarcontainer(title: '일정', screenheight: _screenheight),
             Container(
               width: _screenwidth,
               color: backgroundColor,
@@ -103,12 +90,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 16,),
+            const SizedBox(height: 16),
             Container(
               color: backgroundColor,
-              child: Row (
+              child: Row(
                 children: [
-                  SizedBox(width: _screenwidth * 0.16,),
+                  SizedBox(width: _screenwidth * 0.16),
                   Text(
                     'TO-DO',
                     style: TextStyle(),
@@ -117,53 +104,44 @@ class _CalendarScreenState extends State<CalendarScreen> {
               ),
             ),
             const Padding(
-              padding: EdgeInsets.only(
-                left: 12.0,
-                right: 12.0,
-              ),
-              child: Divider(color: gray, thickness: 0.6,),
+              padding: EdgeInsets.only(left: 12.0, right: 12.0),
+              child: Divider(color: gray, thickness: 0.6),
             ),
             Expanded(
-              child: Container(
-                child: ListView.builder(
-                  itemCount: _taskList.length,
-                  itemBuilder: (context, index) {
-                    final task = _taskList[index];
-                    if (task.startDate.isBefore(_selectedDate.add(Duration(days: 1))) &&
-                        task.deadLine.isAfter(_selectedDate.subtract(Duration(days: 1)))) {
-                      return CalendarPageCard(
-                        task: task,
-                        onChanged: (isCompleted) {
-                          setState(() {
-                            _updateTaskCompletion(task, isCompleted);
-                          });
-                        },
-                        onDelete: () {
-                          _deleteTask(task);
-                        },
-                      );
-                    } else {
-                      return Container();
-                    }
-                  },
-                ),
+              child: ListView.builder(
+                itemCount: _taskList.length,
+                itemBuilder: (context, index) {
+                  final task = _taskList[index];
+                  if (task.startDate.isBefore(_selectedDate.add(Duration(days: 1))) &&
+                      task.deadLine.isAfter(_selectedDate.subtract(Duration(days: 1)))) {
+                    return CalendarPageCard(
+                      task: task,
+                      onChanged: (isCompleted) {
+                        setState(() {
+                          _updateTaskCompletion(task, isCompleted);
+                        });
+                      },
+                      onDelete: () {
+                        _deleteTask(task);
+                      },
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
               ),
             ),
           ],
         ),
-        bottomNavigationBar: ToDoListBottomBar(selectedPageIndex: 1,),
+        bottomNavigationBar: ToDoListBottomBar(selectedPageIndex: 1),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            setState(() {
-              _showAddTaskDialog(context);
-            });
+            _showAddTaskDialog(context);
           },
           foregroundColor: Colors.white,
           backgroundColor: Colors.greenAccent,
           shape: CircleBorder(),
           child: const Icon(Icons.add),
-          //TODO 일정추가 아이콘 추가 저작권 확인해라...
-
         ),
       ),
     );
@@ -174,18 +152,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
     DateTime _deadlineDate = DateTime.now();
     int _selectedColor = 0;
 
-
     Widget selectedIcon(int i) {
       if (_selectedColor == i) {
-        return Icon(
-          Icons.check,
-        );
+        return Icon(Icons.check);
       } else {
-        return SizedBox(height: 0, width: 0,);
+        return SizedBox(height: 0, width: 0);
       }
-
     }
-
 
     showDialog(
       context: context,
@@ -194,99 +167,102 @@ class _CalendarScreenState extends State<CalendarScreen> {
           builder: (context, setState) {
             return AlertDialog(
               title: Text('일정 추가하기'),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextField(
-                    onChanged: (value) {
-                      _title = value;
-                    },
-                    decoration: InputDecoration(hintText: '제목'),
-                  ),
-                  //TODO 시작일 설정 가능, default값 : 오늘
-                  Row(
+              content: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text('마감일:'),
-                      TextButton(
-                        onPressed: () async {
-                          DateTime? pickedDate = await showDatePicker(
-                            context: context,
-                            initialDate: _deadlineDate,
-                            firstDate: DateTime.now(),
-                            lastDate: DateTime(2100),
-                          );
-                          if (pickedDate != null) {
-                            setState(() {
-                              _deadlineDate = pickedDate;
-                            });
-                          }
+                      TextField(
+                        onChanged: (value) {
+                          _title = value;
                         },
-                        child: Text('${_deadlineDate.toLocal()}'.split(' ')[0]),
+                        decoration: InputDecoration(hintText: '제목'),
+                      ),
+                      Row(
+                        children: [
+                          Text('마감일:'),
+                          TextButton(
+                            onPressed: () async {
+                              DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: _deadlineDate,
+                                firstDate: DateTime.now(),
+                                lastDate: DateTime(2100),
+                              );
+                              if (pickedDate != null) {
+                                setState(() {
+                                  _deadlineDate = pickedDate;
+                                });
+                              }
+                            },
+                            child: Text('${_deadlineDate.toLocal()}'.split(' ')[0]),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _selectedColor = 0;
+                              });
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: firstCategoryColor,
+                              child: selectedIcon(0),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _selectedColor = 1;
+                              });
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: secondCategoryColor,
+                              child: selectedIcon(1),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _selectedColor = 2;
+                              });
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: thirdCategoryColor,
+                              child: selectedIcon(2),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _selectedColor = 3;
+                              });
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: fourthCategoryColor,
+                              child: selectedIcon(3),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _selectedColor = 4;
+                              });
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: fivethCategoryColor,
+                              child: selectedIcon(4),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  //choose colorCategory
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _selectedColor = 0;
-                          });
-                        },
-                        child: CircleAvatar(
-                          backgroundColor: firstCategoryColor,
-                          child: selectedIcon(0),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _selectedColor = 1;
-                          });
-                        },
-                        child: CircleAvatar(
-                          backgroundColor: secondCategoryColor,
-                          child: selectedIcon(1),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _selectedColor = 2;
-                          });
-                        },
-                        child: CircleAvatar(
-                          backgroundColor: thirdCategoryColor,
-                          child: selectedIcon(2),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _selectedColor = 3;
-                          });
-                        },
-                        child: CircleAvatar(
-                          backgroundColor: fourthCategoryColor,
-                          child: selectedIcon(3),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _selectedColor = 4;
-                          });
-                        },
-                        child: CircleAvatar(
-                          backgroundColor: fivethCategoryColor,
-                          child: selectedIcon(4),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
               actions: [
                 TextButton(
@@ -297,7 +273,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 ),
                 TextButton(
                   onPressed: () async {
-
                     final task = TaskItem(
                       null,
                       _title,
@@ -330,6 +305,5 @@ class _CalendarScreenState extends State<CalendarScreen> {
         );
       },
     );
-
   }
 }
