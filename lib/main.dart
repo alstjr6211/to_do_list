@@ -8,13 +8,26 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'data/task_item.dart';
 
+import 'api/notification.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+
+
 void main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
 
   await Hive.initFlutter();
   Hive.registerAdapter(TaskItemAdapter());
   await Hive.openBox<TaskItem>(HiveHelper.boxName);
 
+  tz.initializeTimeZones();
+  tz.setLocalLocation(tz.getLocation('Asia/Seoul'));
 
+
+  await FlutterLocalNotification.init();
+  await FlutterLocalNotification.requestNotificationPermissions();
   runApp(
     MyApp(),
   );
