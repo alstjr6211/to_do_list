@@ -8,11 +8,12 @@ class FlutterLocalNotification {
   static FlutterLocalNotificationsPlugin flutterLocalNotificationPlugin =
   FlutterLocalNotificationsPlugin();
 
-  static init() async {
+  static Future<void> init() async {
     const AndroidInitializationSettings androidInitializationSettings =
     AndroidInitializationSettings('mipmap/ic_launcher');
 
-    const InitializationSettings initializationSettings = InitializationSettings(
+    const InitializationSettings initializationSettings =
+    InitializationSettings(
       android: androidInitializationSettings,
     );
 
@@ -20,15 +21,21 @@ class FlutterLocalNotification {
 
     // 알림 채널 생성
     const AndroidNotificationChannel channel = AndroidNotificationChannel(
-      'high_importance_channel', // id
-      'High Importance Notifications', // name
-      description: 'This channel is used for important notifications.', // description
+      'high_importance_channel',
+      'High Importance Notifications',
+      description: 'This channel is used for important notifications.',
       importance: Importance.max,
     );
 
     await flutterLocalNotificationPlugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
+  }
+
+  static Future<bool> checkNotificationPermissions() async {
+    final status = await Permission.notification.status;
+    return status.isGranted;
   }
 
   static Future<void> requestNotificationPermissions() async {
@@ -41,7 +48,7 @@ class FlutterLocalNotification {
   static Future<void> showNotification(String title, String body) async {
     const AndroidNotificationDetails androidNotificationDetails =
     AndroidNotificationDetails(
-      'high_importance_channel', // channel id
+      'high_importance_channel',
       'High Importance Notifications',
       channelDescription: 'This channel is used for important notifications.',
       importance: Importance.max,
@@ -53,14 +60,15 @@ class FlutterLocalNotification {
       android: androidNotificationDetails,
     );
 
-    await flutterLocalNotificationPlugin.show(0, title, body, notificationDetails);
+    await flutterLocalNotificationPlugin.show(
+        0, title, body, notificationDetails);
   }
 
   static Future<void> scheduleNotification(
       int id, String title, String body, DateTime scheduledTime) async {
     const AndroidNotificationDetails androidNotificationDetails =
     AndroidNotificationDetails(
-      'high_importance_channel', // channel id
+      'high_importance_channel',
       'High Importance Notifications',
       channelDescription: 'This channel is used for important notifications.',
       importance: Importance.max,
@@ -83,5 +91,9 @@ class FlutterLocalNotification {
       UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: DateTimeComponents.time,
     );
+  }
+
+  static Future<void> cancelAllNotifications() async {
+    await flutterLocalNotificationPlugin.cancelAll();
   }
 }

@@ -48,6 +48,7 @@ class ToDoListBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
       currentIndex: selectedPageIndex,
       onTap: (idx) => _iconsTapped(context, idx),
       backgroundColor: white,
@@ -63,7 +64,7 @@ class ToDoListBottomBar extends StatelessWidget {
             color: selectedItemColor,
             height: bottomBarIconSize,
           ),
-          label: '홈',
+          label: "",
         ),
         BottomNavigationBarItem(
           icon: SvgPicture.asset(
@@ -76,7 +77,7 @@ class ToDoListBottomBar extends StatelessWidget {
             color: selectedItemColor,
             height: bottomBarIconSize,
           ),
-          label: '일정',
+          label: "",
         ),
         BottomNavigationBarItem(
           icon: SvgPicture.asset(
@@ -89,7 +90,7 @@ class ToDoListBottomBar extends StatelessWidget {
             color: selectedItemColor,
             height: bottomBarIconSize,
           ),
-          label: '설정',
+          label: "",
         ),
       ],
     );

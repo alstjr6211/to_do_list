@@ -57,6 +57,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
     _loadTasks();
   }
 
+  void _scheduleTaskNotifications(TaskItem task) {
+    if (!task.isCompleted && task.deadLine.isAfter(DateTime.now())) {
+      FlutterLocalNotification.scheduleNotification(
+        task.key as int,
+        'Task Reminder',
+        'Today is the deadline for your task: ${task.taskTitle}',
+        DateTime(task.deadLine.year, task.deadLine.month, task.deadLine.day, 19, 0),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final _screenwidth = MediaQuery.of(context).size.width;
@@ -118,6 +129,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   final task = _taskList[index];
                   if (task.startDate.isBefore(_selectedDate.add(Duration(days: 1))) &&
                       task.deadLine.isAfter(_selectedDate.subtract(Duration(days: 1)))) {
+                    _scheduleTaskNotifications(task);
                     return CalendarPageCard(
                       task: task,
                       onChanged: (isCompleted) {
@@ -277,7 +289,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 ),
                 TextButton(
                   onPressed: () async {
-                    final task = TaskItem(
+                    final newTask = TaskItem(
                       null,
                       _title,
                       DateTime.now(),
@@ -285,7 +297,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       _selectedColor,
                     );
 
-                    await _hiveHelper.addTask(task);
+                    await _hiveHelper.addTask(newTask);
+                    _scheduleTaskNotifications(newTask);
 
                     print('일정 추가 버튼 클릭됨');
                     _loadTasks();
