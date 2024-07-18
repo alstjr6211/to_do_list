@@ -13,12 +13,11 @@ Widget textDividor(String text, double screenwidth) {
         const SizedBox(width: 10,),
         Text(
           text,
-          style: TextStyle(
-            //TODO font추가
-            //TODO fontFamil: "fontname",
+          style: const TextStyle(
+            fontFamily: "NanumBarunpen",
             color: darkGray,
             fontSize: 24,
-            fontWeight: FontWeight.normal,
+            fontWeight: FontWeight.bold,
           ),
         ),
         const SizedBox(width: 10,),

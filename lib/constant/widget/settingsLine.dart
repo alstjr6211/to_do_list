@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_list/constant/color.dart';
 
+import '../fonts.dart';
+
 class Settingsline extends StatelessWidget {
 
   final String menuText;
@@ -23,7 +25,9 @@ class Settingsline extends StatelessWidget {
             children: [
               Text(
                 menuText,
-                //TODO font설정필요, size조절 필요
+
+                //TODO size조절 필요
+                style: textStyleNormal(),
               ),
             ],
           ),

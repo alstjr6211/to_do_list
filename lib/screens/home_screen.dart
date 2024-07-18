@@ -65,25 +65,28 @@ class _HomeScreenState extends State<HomeScreen> {
     final _screenwidth = MediaQuery.of(context).size.width;
     final _screenheight = MediaQuery.of(context).size.height;
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: backgroundColor,
-        body: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Appbarcontainer(title: 'TODAY', screenheight: _screenheight,),
-                textDividor('TO-DO-Today', _screenwidth),
-                _buildTaskList(_incompTasks),
-                const SizedBox(height: 16,),
-                textDividor('Done', _screenwidth),
-                _buildTaskList(_compTasks),
-              ],
+    return Container(
+      color: backgroundColor,
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: backgroundColor,
+          body: SingleChildScrollView(
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Appbarcontainer(title: 'TODAY', screenheight: _screenheight,),
+                  textDividor('TO-DO-Today', _screenwidth),
+                  _buildTaskList(_incompTasks),
+                  const SizedBox(height: 16,),
+                  textDividor('Done', _screenwidth),
+                  _buildTaskList(_compTasks),
+                ],
+              ),
             ),
           ),
+          bottomNavigationBar: ToDoListBottomBar(selectedPageIndex: 0,),
         ),
-        bottomNavigationBar: ToDoListBottomBar(selectedPageIndex: 0,),
       ),
     );
   }

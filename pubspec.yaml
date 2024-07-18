@@ -47,3 +47,13 @@ flutter:
 
   assets:
     - assets/icons/
+
+
+  fonts:
+  - family: NanumBarunpen
+    fonts:
+      - asset: assets/font/NanumBarunpenB.ttf
+        weight: 200
+      - asset: assets/font/NanumBarunpenR.ttf
+        weight: 600
+

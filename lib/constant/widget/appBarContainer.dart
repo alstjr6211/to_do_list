@@ -19,15 +19,15 @@ class Appbarcontainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 52,
+      height: 36,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               title,
-              style: TextStyle(
-                //TODO font famliy 추가 필요     fontFamily: "",
+              style: const TextStyle(
+                fontFamily: "NanumBarunpen",
                 color: gray,
                 fontSize: 24,
                 fontWeight: FontWeight.bold,

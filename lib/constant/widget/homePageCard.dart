@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_list/constant/fonts.dart';
 import 'package:to_do_list/data/task_item.dart';
 import 'package:to_do_list/constant/color.dart';
 
@@ -19,18 +20,10 @@ class HomePageCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           color: white,
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 1.5,
-              spreadRadius: 1.5,
-              color: gray, //TODO shadow설정 필요,
-              offset: Offset(0, 1),
-            )
-          ]
         ),
         child:  ListTile(
           leading: Checkbox(
@@ -43,12 +36,13 @@ class HomePageCard extends StatelessWidget {
             task.taskTitle,
             style: TextStyle(
               decoration: task.isCompleted ? TextDecoration.lineThrough : TextDecoration.none,
-              //TODO font style
+              fontFamily: "NanumBarunpen",
+              fontWeight: FontWeight.bold,
             ),
           ),
           subtitle: Text(
             '${task.deadLine.toLocal()}'.split(' ')[0],
-            //TODO font style
+            style: textStyleNormal(),
           ),
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0.8),
           visualDensity: VisualDensity.compact,
@@ -64,7 +58,7 @@ class HomePageCard extends StatelessWidget {
                 ),
               ),
               IconButton(
-                icon: Icon(Icons.delete, size: 20),
+                icon: const Icon(Icons.delete, size: 20),
                 onPressed: onDelete,
               ),
             ],

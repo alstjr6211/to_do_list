@@ -23,14 +23,6 @@ class CalendarPageCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: white,
           borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: gray, //TODO shadow색 지정필요
-              blurRadius: 2,
-              spreadRadius: 2,
-              offset: Offset(0, 1),
-            ),
-          ],
         ),
         child: ListTile(
           leading: Checkbox(
@@ -44,12 +36,16 @@ class CalendarPageCard extends StatelessWidget {
             task.taskTitle,
             style: TextStyle(
               decoration: task.isCompleted ? TextDecoration.lineThrough : TextDecoration.none,
-              //TODO font style
+              fontFamily: "NanumBarunpen",
+              fontWeight: FontWeight.bold,
             ),
           ),
           subtitle: Text(
             '마감일 : ' + '${task.deadLine.toLocal()}'.split(' ')[0],
-            //TODO font style
+            style: TextStyle(
+              fontFamily: "NanumBarunpen",
+              fontWeight: FontWeight.normal,
+            ),
           ),
           contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           visualDensity: VisualDensity.compact,

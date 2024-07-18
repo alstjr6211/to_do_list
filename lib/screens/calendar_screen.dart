@@ -73,91 +73,94 @@ class _CalendarScreenState extends State<CalendarScreen> {
     final _screenwidth = MediaQuery.of(context).size.width;
     final _screenheight = MediaQuery.of(context).size.height;
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: backgroundColor,
-        body: Column(
-          children: [
-            Appbarcontainer(title: '일정', screenheight: _screenheight),
-            Container(
-              width: _screenwidth,
-              color: backgroundColor,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  right: 16,
-                  bottom: 24,
-                ),
-                child: TableCalendar(
-                  focusedDay: _selectedDate,
-                  firstDay: DateTime(2000),
-                  lastDay: DateTime(2100),
-                  selectedDayPredicate: (day) => isSameDay(day, _selectedDate),
-                  onDaySelected: (selectedDay, focusedDay) {
-                    setState(() {
-                      _selectedDate = selectedDay;
-                    });
-                  },
-                  calendarStyle: calendarStyle(),
-                  headerStyle: headerStyle(),
-                  daysOfWeekStyle: daysOfWeekStyle(),
-                  //TODO 언어설정 변경 locale: 'Ko_머시기', intl패키지 추가 필요
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Container(
-              color: backgroundColor,
-              child: Row(
-                children: [
-                  SizedBox(width: _screenwidth * 0.16),
-                  Text(
-                    'TO-DO',
-                    style: TextStyle(),
+    return Container(
+      color: backgroundColor,
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: backgroundColor,
+          body: Column(
+            children: [
+              Appbarcontainer(title: '일정', screenheight: _screenheight),
+              Container(
+                width: _screenwidth,
+                color: backgroundColor,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 32,
+                    right: 32,
                   ),
-                ],
+                  child: TableCalendar(
+                    focusedDay: _selectedDate,
+                    firstDay: DateTime(2000),
+                    lastDay: DateTime(2100),
+                    selectedDayPredicate: (day) => isSameDay(day, _selectedDate),
+                    onDaySelected: (selectedDay, focusedDay) {
+                      setState(() {
+                        _selectedDate = selectedDay;
+                      });
+                    },
+                    calendarStyle: calendarStyle(),
+                    headerStyle: headerStyle(),
+                    daysOfWeekStyle: daysOfWeekStyle(),
+                    //TODO 언어설정 변경 locale: 'Ko_머시기', intl패키지 추가 필요
+
+                  ),
+                ),
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(left: 12.0, right: 12.0),
-              child: Divider(color: gray, thickness: 0.6),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _taskList.length,
-                itemBuilder: (context, index) {
-                  final task = _taskList[index];
-                  if (task.startDate.isBefore(_selectedDate.add(Duration(days: 1))) &&
-                      task.deadLine.isAfter(_selectedDate.subtract(Duration(days: 1)))) {
-                    _scheduleTaskNotifications(task);
-                    return CalendarPageCard(
-                      task: task,
-                      onChanged: (isCompleted) {
-                        setState(() {
-                          _updateTaskCompletion(task, isCompleted);
-                        });
-                      },
-                      onDelete: () {
-                        _deleteTask(task);
-                      },
-                    );
-                  } else {
-                    return Container();
-                  }
-                },
+              const SizedBox(height: 16),
+              Container(
+                color: backgroundColor,
+                child: Row(
+                  children: [
+                    SizedBox(width: _screenwidth * 0.16),
+                    Text(
+                      'TO-DO',
+                      style: TextStyle(),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-        bottomNavigationBar: ToDoListBottomBar(selectedPageIndex: 1),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _showAddTaskDialog(context);
-          },
-          foregroundColor: Colors.white,
-          backgroundColor: Colors.greenAccent,
-          shape: CircleBorder(),
-          child: const Icon(Icons.add),
+              const Padding(
+                padding: EdgeInsets.only(left: 12.0, right: 12.0),
+                child: Divider(color: gray, thickness: 0.6),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _taskList.length,
+                  itemBuilder: (context, index) {
+                    final task = _taskList[index];
+                    if (task.startDate.isBefore(_selectedDate.add(Duration(days: 1))) &&
+                        task.deadLine.isAfter(_selectedDate.subtract(Duration(days: 1)))) {
+                      _scheduleTaskNotifications(task);
+                      return CalendarPageCard(
+                        task: task,
+                        onChanged: (isCompleted) {
+                          setState(() {
+                            _updateTaskCompletion(task, isCompleted);
+                          });
+                        },
+                        onDelete: () {
+                          _deleteTask(task);
+                        },
+                      );
+                    } else {
+                      return Container();
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
+          bottomNavigationBar: ToDoListBottomBar(selectedPageIndex: 1),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              _showAddTaskDialog(context);
+            },
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.greenAccent,
+            shape: CircleBorder(),
+            child: const Icon(Icons.add),
+          ),
         ),
       ),
     );
