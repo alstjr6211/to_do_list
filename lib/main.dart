@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:to_do_list/screens/calendar_screen.dart';
 import 'package:to_do_list/screens/home_screen.dart';
 
@@ -13,6 +16,10 @@ import 'data/task_item.dart';
 import 'api/notification.dart';
 
 void main() async {
+
+  await initializeDateFormatting();
+
+
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(TaskItemAdapter());

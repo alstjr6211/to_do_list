@@ -24,6 +24,10 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
+
+  CalendarFormat format = CalendarFormat.month;
+
+
   final HiveHelper _hiveHelper = HiveHelper();
   DateTime _selectedDate = DateTime.now();
   List<TaskItem> _taskList = [];
@@ -55,25 +59,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
         _events[eventDate]?.add(task);
       }
     });
-  }
-
-
-
-  static Color checkColor(int? colorCategory) {
-    switch (colorCategory) {
-      case 0:
-        return firstCategoryColor;
-      case 1:
-        return secondCategoryColor;
-      case 2:
-        return thirdCategoryColor;
-      case 3:
-        return fourthCategoryColor;
-      case 4:
-        return fivethCategoryColor;
-      default:
-        return firstCategoryColor;
-    }
   }
 
   void _updateTaskCompletion(TaskItem task, bool? isCompleted) async {
@@ -120,6 +105,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     right: 32,
                   ),
                   child: TableCalendar(
+                    //day, locale etc
+                    locale: 'ko_KR',
                     focusedDay: _selectedDate,
                     firstDay: DateTime(2000),
                     lastDay: DateTime(2100),
@@ -129,16 +116,26 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         _selectedDate = selectedDay;
                       });
                     },
+                    //calendar style
                     calendarStyle: calendarStyle(),
                     headerStyle: headerStyle(),
                     daysOfWeekStyle: daysOfWeekStyle(),
                     eventLoader: (day) {
                       final date = DateTime(day.year, day.month, day.day);
                       final events = _events[date] ?? [];
-                      print("Event loader for $date: ${events.length} events");
+                      print("Load $date: ${events.length} events");
                       return events;
                     },
 
+                    //calendar format
+                    calendarFormat: format,
+                    onFormatChanged: (CalendarFormat format) {
+                      setState(() {
+                        this.format = format;
+                      });
+                    },
+
+                    //marker
                     calendarBuilders: CalendarBuilders(
                       markerBuilder: (context, date, events) {
                         if (events.isEmpty) return SizedBox();
@@ -151,7 +148,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             margin: const EdgeInsets.symmetric(horizontal: 1),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: checkColor((events.first as TaskItem).colorCategory),
+                              color: purple400,
                             ),
                           ),
                         );
@@ -160,23 +157,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
-              Container(
-                color: backgroundColor,
-                child: Row(
-                  children: [
-                    SizedBox(width: _screenwidth * 0.16),
-                    Text(
-                      'TO-DO',
-                      style: TextStyle(),
-                    ),
-                  ],
-                ),
-              ),
               const Padding(
                 padding: EdgeInsets.only(left: 12.0, right: 12.0),
-                child: Divider(color: gray, thickness: 0.6),
+                child: Divider(color: purple200, thickness: 1),
               ),
+              //events
               Expanded(
                 child: ListView.builder(
                   itemCount: _taskList.length,
@@ -380,3 +365,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     );
   }
 }
+//TODO modify _showdialog : error, UI, selected days
+
+//TODO modify marker : only deadline,
+

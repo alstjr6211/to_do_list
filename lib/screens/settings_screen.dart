@@ -150,3 +150,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 }
+
+
+//TODO modify notification error

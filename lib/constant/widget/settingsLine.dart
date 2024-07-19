@@ -25,9 +25,7 @@ class Settingsline extends StatelessWidget {
             children: [
               Text(
                 menuText,
-
-                //TODO size조절 필요
-                style: textStyleNormal(),
+                style: textStyleBold().copyWith(fontSize: 16),
               ),
             ],
           ),

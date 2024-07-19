@@ -11,8 +11,12 @@ Widget homeSubjectDividor(String text, double screenwidth) {
           height: 36,
           width: 100,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50),
-            color: white,
+            borderRadius: BorderRadius.circular(12),
+            color: purple100,
+            border: Border.all(
+              color: purple300,
+              width: 2,
+            ),
           ),
           child: Center(
             child: Text(
