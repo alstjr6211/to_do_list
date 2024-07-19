@@ -27,6 +27,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   final HiveHelper _hiveHelper = HiveHelper();
   DateTime _selectedDate = DateTime.now();
   List<TaskItem> _taskList = [];
+  Map<DateTime, List<TaskItem>> _events = {};
 
   @override
   void initState() {
@@ -43,7 +44,36 @@ class _CalendarScreenState extends State<CalendarScreen> {
         if (!a.isCompleted && b.isCompleted) return -1;
         return 0;
       });
+
+      _events.clear();
+      for (final task in tasks) {
+        final eventDate = DateTime(task.deadLine.year, task.deadLine.month, task.deadLine.day);
+        print("Mapping task '${task.taskTitle}' to $eventDate");
+        if (_events[eventDate] == null) {
+          _events[eventDate] = [];
+        }
+        _events[eventDate]?.add(task);
+      }
     });
+  }
+
+
+
+  static Color checkColor(int? colorCategory) {
+    switch (colorCategory) {
+      case 0:
+        return firstCategoryColor;
+      case 1:
+        return secondCategoryColor;
+      case 2:
+        return thirdCategoryColor;
+      case 3:
+        return fourthCategoryColor;
+      case 4:
+        return fivethCategoryColor;
+      default:
+        return firstCategoryColor;
+    }
   }
 
   void _updateTaskCompletion(TaskItem task, bool? isCompleted) async {
@@ -102,8 +132,31 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     calendarStyle: calendarStyle(),
                     headerStyle: headerStyle(),
                     daysOfWeekStyle: daysOfWeekStyle(),
-                    //TODO 언어설정 변경 locale: 'Ko_머시기', intl패키지 추가 필요
+                    eventLoader: (day) {
+                      final date = DateTime(day.year, day.month, day.day);
+                      final events = _events[date] ?? [];
+                      print("Event loader for $date: ${events.length} events");
+                      return events;
+                    },
 
+                    calendarBuilders: CalendarBuilders(
+                      markerBuilder: (context, date, events) {
+                        if (events.isEmpty) return SizedBox();
+                        print("Event marker build for $date with ${events.length} events");
+                        return Positioned(
+                          bottom: 1,
+                          child: Container(
+                            width: 7.0,
+                            height: 7.0,
+                            margin: const EdgeInsets.symmetric(horizontal: 1),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: checkColor((events.first as TaskItem).colorCategory),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),

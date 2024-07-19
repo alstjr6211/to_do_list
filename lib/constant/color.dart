@@ -12,7 +12,10 @@ const mainContainerColor = Color(0xffae8fff);
 
 //calendar
 const calendarTodayColor = Color(0xffaea1d2);
+
 const boxDecorationColor = Color(0xffc9c0e3);
+
+
 const calendarMarkerColor = Color(0xff6abfea);
 
 //bottomBarItem

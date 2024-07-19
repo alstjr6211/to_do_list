@@ -22,7 +22,7 @@ CalendarStyle calendarStyle() {
 
     outsideDaysVisible: false,
     markersAlignment: Alignment.bottomCenter,
-    markersMaxCount: 1,
+    markersMaxCount: 5,
     markerDecoration: const BoxDecoration(
       color: calendarMarkerColor,
       shape: BoxShape.rectangle,

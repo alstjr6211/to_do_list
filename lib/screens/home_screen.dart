@@ -76,10 +76,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Appbarcontainer(title: 'TODAY', screenheight: _screenheight,),
-                  textDividor('TO-DO-Today', _screenwidth),
+                  homeSubjectDividor('TO-DO-Today', _screenwidth),
                   _buildTaskList(_incompTasks),
                   const SizedBox(height: 16,),
-                  textDividor('Done', _screenwidth),
+                  homeSubjectDividor('Done', _screenwidth),
                   _buildTaskList(_compTasks),
                 ],
               ),
