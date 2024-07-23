@@ -9,19 +9,19 @@ const red = Color(0xffff3434);
 
 
 const backgroundColor = Color(0xffFFFFFF);
-const backgroundContainerColor = Color(0xffe8e8e8);
-const mainContainerColor = Color(0xffae8fff);
+const backgroundContainerColor = Color(0xfff1f1f1);
+const mainContainerColor = Color(0xffffce76);
 
 //calendar
-const calendarTodayColor = Color(0xffaea1d2);
+const calendarTodayColor = Color(0xfffff0cc);
 
-const boxDecorationColor = Color(0xffc9c0e3);
+const boxDecorationColor = Color(0xffffe5c9);
 
 
-const calendarMarkerColor = Color(0xff6abfea);
+const calendarMarkerColor = Color(0xffffea92);
 
 //bottomBarItem
-const selectedItemColor = Color(0xff8d62e0);
+const selectedItemColor = Color(0xffffdd9f);
 const unselectedItemColor = Color(0xffb4b4b4);
 
 
@@ -32,14 +32,14 @@ const thirdCategoryColor = Color(0xff84ff68);
 const fourthCategoryColor = Color(0xff4bdfff);
 const fivethCategoryColor = Color(0xff8767ff);
 
-const purple100 = Color(0xedebdfff);
-const purple200 = Color(0xede0c9ff);
-const purple300 = Color(0xedccacff);
-const purple400 = Color(0xedb78aff);
-const purple500 = Color(0xeda56dff);
-const purple600 = Color(0xed964fff);
-const purple700 = Color(0xed8933ff);
-const purple800 = Color(0xed720fff);
+const purple100 = Color(0xfffff4db);
+const purple200 = Color(0xfffff0cc);
+const purple300 = Color(0xffffe7a4);
+const purple400 = Color(0xffffde89);
+const purple500 = Color(0xffffda6c);
+const purple600 = Color(0xffffcf51);
+const purple700 = Color(0xffffc42e);
+const purple800 = Color(0xffffbe14);
 
 
 
