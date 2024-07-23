@@ -32,7 +32,7 @@ class Settingsline extends StatelessWidget {
           const Row(
             children: [
               Expanded(
-                child: Divider(color: darkGray, thickness: 1.2,),
+                child: Divider(color: darkGrey, thickness: 1.2,),
               ),
             ],
           ),

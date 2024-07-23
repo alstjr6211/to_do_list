@@ -7,6 +7,7 @@ import '../constant/bottomNavigationBar.dart';
 import 'package:to_do_list/data/hive_helper.dart';
 import 'package:to_do_list/data/task_item.dart';
 
+import '../constant/widget/homeLine.dart';
 import '../constant/widget/homePageCard.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -69,18 +70,17 @@ class _HomeScreenState extends State<HomeScreen> {
       color: backgroundColor,
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: backgroundColor,
+          backgroundColor: backgroundContainerColor,
           body: SingleChildScrollView(
             child: Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Appbarcontainer(title: 'TODAY', screenheight: _screenheight,),
-                  homeSubjectDividor('TO-DO-Today', _screenwidth),
+                  Row(children: [Expanded(child: homeSubjectDividor('To Do', _screenwidth))],),
                   _buildTaskList(_incompTasks),
                   const SizedBox(height: 16,),
-                  homeSubjectDividor('Done', _screenwidth),
-                  _buildTaskList(_compTasks),
+                  _buildTaskDone(_compTasks),
                 ],
               ),
             ),
@@ -117,6 +117,34 @@ class _HomeScreenState extends State<HomeScreen> {
         style: TextStyle(color: Colors.grey),
       ),
     );
+  }
+
+  Widget _buildTaskDone(List<TaskItem> tasks) {
+    final _screenwidth = MediaQuery.of(context).size.width;
+    return tasks.isNotEmpty
+        ? Column(
+      children: [
+        HomeLine(screenwidth: _screenwidth),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: tasks.length,
+          itemBuilder: (context, index) {
+            final task = tasks[index];
+            return HomePageCard(
+              task: task,
+              onChanged: (isCompleted) {
+                _updateTaskCompletion(task, isCompleted);
+              },
+              onDelete: () {
+                _deleteTask(task);
+              },
+            );
+          },
+        ),
+      ],
+    )
+        : const SizedBox(height: 0,);
   }
 }
 

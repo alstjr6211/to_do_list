@@ -19,6 +19,7 @@ class Appbarcontainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: white,
       height: 36,
       child: Center(
         child: Column(
@@ -28,7 +29,7 @@ class Appbarcontainer extends StatelessWidget {
               title,
               style: const TextStyle(
                 fontFamily: "NanumBarunpen",
-                color: gray,
+                color: grey,
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),

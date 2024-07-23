@@ -112,7 +112,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     title: settingsText('어플리케이션 버전 : $application_version', true),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
                   ),
-                  const Divider(color: gray, thickness: 0.6,),
+                  const Divider(color: grey, thickness: 0.6,),
                   ListTile(
                     title: settingsText('이용약관', true),
                     onTap: (){
@@ -120,7 +120,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     },
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
                   ),
-                  const Divider(color: gray, thickness: 0.6,),
+                  const Divider(color: grey, thickness: 0.6,),
                   ListTile(
                     title: settingsText('개인정보 처리방침', true),
                     onTap: (){
@@ -128,7 +128,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     },
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
                   ),
-                  const Divider(color: gray, thickness: 0.6,),
+                  const Divider(color: grey, thickness: 0.6,),
                   ListTile(
                     title: settingsText('사용한 라이센스', true),
                     onTap: () {

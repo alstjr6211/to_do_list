@@ -21,8 +21,8 @@ CalendarStyle calendarStyle() {
     weekendTextStyle: textStyleBold().copyWith(color: red),
     todayTextStyle: textStyleBold(),
     outsideDaysVisible: true,
-    outsideTextStyle: textStyleBold().copyWith(color: gray),
-    disabledTextStyle: textStyleBold().copyWith(color: gray),
+    outsideTextStyle: textStyleBold().copyWith(color: grey),
+    disabledTextStyle: textStyleBold().copyWith(color: grey),
     holidayTextStyle: textStyleBold().copyWith(color: red),
     defaultTextStyle: textStyleBold().copyWith(color: black),
     markersAlignment: Alignment.bottomCenter,
@@ -40,7 +40,7 @@ DaysOfWeekStyle daysOfWeekStyle() {
     weekdayStyle: TextStyle(
         fontFamily: "NanumBarunpen",
         fontWeight: FontWeight.normal,
-        color: darkGray),
+        color: darkGrey),
     weekendStyle: TextStyle(
         fontFamily: "NanumBarunpen",
         fontWeight: FontWeight.normal,
@@ -61,7 +61,7 @@ HeaderStyle headerStyle() {
 
     formatButtonVisible: true,
     formatButtonShowsNext: true,
-    formatButtonTextStyle: textStyleNormal().copyWith(color: darkGray, fontSize: 12),
+    formatButtonTextStyle: textStyleNormal().copyWith(color: darkGrey, fontSize: 12),
     formatButtonDecoration: const BoxDecoration(
       border: Border.fromBorderSide(BorderSide(color: purple300)),
       borderRadius: BorderRadius.all(Radius.circular(12.0)),

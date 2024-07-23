@@ -20,10 +20,7 @@ class CalendarPageCard extends StatelessWidget {
       padding: const EdgeInsets.all(2.0),
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-        decoration: BoxDecoration(
-          color: white,
-          borderRadius: BorderRadius.circular(12),
-        ),
+
         child: ListTile(
           leading: Checkbox(
             value: task.isCompleted,
@@ -31,6 +28,18 @@ class CalendarPageCard extends StatelessWidget {
               onChanged(value);
               print('checkbox clicked');
             },
+            fillColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.selected)) {
+                return purple400;
+              }
+              return null;
+            }),
+            side: BorderSide(
+              color: grey
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
           ),
           title: Text(
             task.taskTitle,
@@ -38,6 +47,7 @@ class CalendarPageCard extends StatelessWidget {
               decoration: task.isCompleted ? TextDecoration.lineThrough : TextDecoration.none,
               fontFamily: "NanumBarunpen",
               fontWeight: FontWeight.bold,
+              color: checkColor(task.colorCategory),
             ),
           ),
           subtitle: Text(
@@ -45,6 +55,7 @@ class CalendarPageCard extends StatelessWidget {
             style: TextStyle(
               fontFamily: "NanumBarunpen",
               fontWeight: FontWeight.normal,
+              color: darkGrey,
             ),
           ),
           contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),

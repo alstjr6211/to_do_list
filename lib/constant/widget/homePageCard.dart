@@ -31,6 +31,18 @@ class HomePageCard extends StatelessWidget {
             onChanged: (value) {
               onChanged(value);
             },
+            fillColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.selected)) {
+                return purple400;
+              }
+              return null;
+            }),
+            side: BorderSide(
+                color: grey
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
           ),
           title: Text(
             task.taskTitle,
@@ -38,6 +50,7 @@ class HomePageCard extends StatelessWidget {
               decoration: task.isCompleted ? TextDecoration.lineThrough : TextDecoration.none,
               fontFamily: "NanumBarunpen",
               fontWeight: FontWeight.bold,
+              color: checkColor(task.colorCategory),
             ),
           ),
           subtitle: Text(
@@ -60,6 +73,7 @@ class HomePageCard extends StatelessWidget {
               IconButton(
                 icon: const Icon(Icons.delete, size: 20),
                 onPressed: onDelete,
+                color: grey,
               ),
             ],
           ),

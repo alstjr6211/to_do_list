@@ -157,34 +157,32 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 12.0, right: 12.0),
-                child: Divider(color: purple200, thickness: 1),
-              ),
-              //events
               Expanded(
-                child: ListView.builder(
-                  itemCount: _taskList.length,
-                  itemBuilder: (context, index) {
-                    final task = _taskList[index];
-                    if (task.startDate.isBefore(_selectedDate.add(Duration(days: 1))) &&
-                        task.deadLine.isAfter(_selectedDate.subtract(Duration(days: 1)))) {
-                      _scheduleTaskNotifications(task);
-                      return CalendarPageCard(
-                        task: task,
-                        onChanged: (isCompleted) {
-                          setState(() {
-                            _updateTaskCompletion(task, isCompleted);
-                          });
-                        },
-                        onDelete: () {
-                          _deleteTask(task);
-                        },
-                      );
-                    } else {
-                      return Container();
-                    }
-                  },
+                child: Container(
+                  color: backgroundContainerColor,
+                  child: ListView.builder(
+                    itemCount: _taskList.length,
+                    itemBuilder: (context, index) {
+                      final task = _taskList[index];
+                      if (task.startDate.isBefore(_selectedDate.add(Duration(days: 1))) &&
+                          task.deadLine.isAfter(_selectedDate.subtract(Duration(days: 1)))) {
+                        _scheduleTaskNotifications(task);
+                        return CalendarPageCard(
+                          task: task,
+                          onChanged: (isCompleted) {
+                            setState(() {
+                              _updateTaskCompletion(task, isCompleted);
+                            });
+                          },
+                          onDelete: () {
+                            _deleteTask(task);
+                          },
+                        );
+                      } else {
+                        return Container();
+                      }
+                    },
+                  ),
                 ),
               ),
             ],
