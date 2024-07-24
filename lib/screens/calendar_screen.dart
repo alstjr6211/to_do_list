@@ -192,8 +192,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
             onPressed: () {
               _showAddTaskDialog(context);
             },
-            foregroundColor: Colors.white,
-            backgroundColor: Colors.greenAccent,
+            foregroundColor: white,
+            backgroundColor: purple600,
             shape: CircleBorder(),
             child: const Icon(Icons.add),
           ),

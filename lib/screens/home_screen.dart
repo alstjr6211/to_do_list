@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_list/constant/color.dart';
+import 'package:to_do_list/constant/fonts.dart';
 import 'package:to_do_list/constant/widget/appBarContainer.dart';
-import 'package:to_do_list/constant/widget/widget.dart';
 
 import '../constant/bottomNavigationBar.dart';
 import 'package:to_do_list/data/hive_helper.dart';
 import 'package:to_do_list/data/task_item.dart';
 
-import '../constant/widget/homeLine.dart';
 import '../constant/widget/homePageCard.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -61,6 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
     _loadTasks();
   }
 
+  String _selectedDropdown = 'TO DO';
+
   @override
   Widget build(BuildContext context) {
     final _screenwidth = MediaQuery.of(context).size.width;
@@ -77,10 +78,62 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Appbarcontainer(title: 'TODAY', screenheight: _screenheight,),
-                  Row(children: [Expanded(child: homeSubjectDividor('To Do', _screenwidth))],),
-                  _buildTaskList(_incompTasks),
-                  const SizedBox(height: 16,),
-                  _buildTaskDone(_compTasks),
+                  Container(
+                    width: _screenwidth,
+                    height: 50,
+                    color: white,
+                    child:  Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(width: 12,),
+                        Container(
+                          width: 120,
+                          height: 40,
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          decoration: BoxDecoration(
+                            color: purple100,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              value: _selectedDropdown,
+                              onChanged: (String? newDropdown) {
+                                setState(() {
+                                  _selectedDropdown = newDropdown!;
+                                });
+                              },
+                              items: <String>['TO DO', '완료한 일'].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        value == 'To Do'
+                                            ? Icons.list_alt
+                                            : Icons.check_circle_outline,
+                                        color: purple800,
+                                      ),
+                                      SizedBox(width: 8.0),
+                                      Text(value),
+                                    ],
+                                  ),
+                                );
+                              }).toList(),
+                              icon : Icon(
+                                Icons.menu,
+                                color: purple800,
+                              ),
+                              style: textStyleBold().copyWith(color: purple800),
+                              dropdownColor: purple100,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
+                      ],),
+                  ),
+                  _selectedDropdown== 'TO DO'
+                      ? _buildTaskList(_incompTasks)
+                      : _buildTaskDone(_compTasks),
                 ],
               ),
             ),
@@ -124,7 +177,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return tasks.isNotEmpty
         ? Column(
       children: [
-        HomeLine(screenwidth: _screenwidth),
         ListView.builder(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
