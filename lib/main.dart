@@ -16,11 +16,9 @@ import 'data/task_item.dart';
 import 'api/notification.dart';
 
 void main() async {
-
+  WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting();
 
-
-  WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(TaskItemAdapter());
   await Hive.openBox<TaskItem>(HiveHelper.boxName);

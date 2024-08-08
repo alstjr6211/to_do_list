@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 40,
                           padding: EdgeInsets.symmetric(horizontal: 8),
                           decoration: BoxDecoration(
-                            color: purple100,
+                            color: main100,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: DropdownButtonHideUnderline(
@@ -111,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         value == 'To Do'
                                             ? Icons.list_alt
                                             : Icons.check_circle_outline,
-                                        color: purple800,
+                                        color: main800,
                                       ),
                                       SizedBox(width: 8.0),
                                       Text(value),
@@ -121,10 +121,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               }).toList(),
                               icon : Icon(
                                 Icons.menu,
-                                color: purple800,
+                                color: main800,
                               ),
-                              style: textStyleBold().copyWith(color: purple800),
-                              dropdownColor: purple100,
+                              style: textStyleBold().copyWith(color: main800),
+                              dropdownColor: main100,
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),

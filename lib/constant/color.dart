@@ -21,7 +21,7 @@ const boxDecorationColor = Color(0xffffe5c9);
 const calendarMarkerColor = Color(0xffffea92);
 
 //bottomBarItem
-const selectedItemColor = Color(0xffffdd9f);
+const selectedItemColor = Color(0xfff5c421);
 const unselectedItemColor = Color(0xffb4b4b4);
 
 
@@ -32,14 +32,17 @@ const thirdCategoryColor = Color(0xff84ff68);
 const fourthCategoryColor = Color(0xff4bdfff);
 const fivethCategoryColor = Color(0xff8767ff);
 
-const purple100 = Color(0xfffff4db);
-const purple200 = Color(0xfffff0cc);
-const purple300 = Color(0xffffe7a4);
-const purple400 = Color(0xffffde89);
-const purple500 = Color(0xffffda6c);
-const purple600 = Color(0xffffcf51);
-const purple700 = Color(0xffffc42e);
-const purple800 = Color(0xffffbe14);
+const main100 = Color(0xfffff4db);
+const main200 = Color(0xfffff0cc);
+const main300 = Color(0xffffe7a4);
+const main400 = Color(0xffffde89);
+const main500 = Color(0xffffda6c);
+const main600 = Color(0xffffcf51);
+const main700 = Color(0xffffc42e);
+const main800 = Color(0xffffbe14);
+
+const maindark = Color(0xffd7ac02);
+
 
 
 

@@ -30,7 +30,7 @@ class CalendarPageCard extends StatelessWidget {
             },
             fillColor: WidgetStateProperty.resolveWith((states) {
               if (states.contains(WidgetState.selected)) {
-                return purple400;
+                return main400;
               }
               return null;
             }),
@@ -47,7 +47,7 @@ class CalendarPageCard extends StatelessWidget {
               decoration: task.isCompleted ? TextDecoration.lineThrough : TextDecoration.none,
               fontFamily: "NanumBarunpen",
               fontWeight: FontWeight.bold,
-              color: checkColor(task.colorCategory),
+              color: black,
             ),
           ),
           subtitle: Text(

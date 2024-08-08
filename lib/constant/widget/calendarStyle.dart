@@ -63,9 +63,9 @@ HeaderStyle headerStyle() {
     formatButtonShowsNext: true,
     formatButtonTextStyle: textStyleNormal().copyWith(color: darkGrey, fontSize: 12),
     formatButtonDecoration: const BoxDecoration(
-      border: Border.fromBorderSide(BorderSide(color: purple300)),
+      border: Border.fromBorderSide(BorderSide(color: main300)),
       borderRadius: BorderRadius.all(Radius.circular(12.0)),
-      color: purple100,
+      color: main100,
     ),
     formatButtonPadding:
     const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),

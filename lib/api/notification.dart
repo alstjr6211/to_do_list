@@ -80,6 +80,9 @@ class FlutterLocalNotification {
       android: androidNotificationDetails,
     );
 
+    //디버깅 로그(예약 확인용)
+    print('Scheduling notification for $scheduledTime');
+
     await flutterLocalNotificationPlugin.zonedSchedule(
       id,
       title,

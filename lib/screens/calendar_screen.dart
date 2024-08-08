@@ -74,11 +74,22 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   void _scheduleTaskNotifications(TaskItem task) {
     if (!task.isCompleted && task.deadLine.isAfter(DateTime.now())) {
+
+      final scheduledNotificationDateTime = DateTime(
+        task.deadLine.year,
+        task.deadLine.month,
+        task.deadLine.day,
+        19,
+      );
+
+      print("Notification scheduled for task '${task.taskTitle}' at $scheduledNotificationDateTime");
+
+
       FlutterLocalNotification.scheduleNotification(
         task.key as int,
         'Task Reminder',
         'Today is the deadline for your task: ${task.taskTitle}',
-        DateTime(task.deadLine.year, task.deadLine.month, task.deadLine.day, 19, 0),
+        scheduledNotificationDateTime,
       );
     }
   }
@@ -148,7 +159,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             margin: const EdgeInsets.symmetric(horizontal: 1),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: purple400,
+                              color: main400,
                             ),
                           ),
                         );
@@ -190,10 +201,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
           bottomNavigationBar: ToDoListBottomBar(selectedPageIndex: 1),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              _showAddTaskDialog(context);
+              _showAddTaskBottomSheet(context);
             },
             foregroundColor: white,
-            backgroundColor: purple600,
+            backgroundColor: main600,
             shape: CircleBorder(),
             child: const Icon(Icons.add),
           ),
@@ -202,10 +213,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
     );
   }
 
-  void _showAddTaskDialog(BuildContext context) {
+  void _showAddTaskBottomSheet(BuildContext context) {
     String _title = '';
-    DateTime _deadlineDate = DateTime.now();
+    DateTime _startDate = _selectedDate;
+    DateTime _deadlineDate = _selectedDate;
     int _selectedColor = 0;
+    final TextEditingController _titleController = TextEditingController();
 
     Widget selectedIcon(int i) {
       if (_selectedColor == i) {
@@ -215,153 +228,232 @@ class _CalendarScreenState extends State<CalendarScreen> {
       }
     }
 
-    showDialog(
+    showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      backgroundColor: backgroundContainerColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+      ),
       builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              title: Text('일정 추가하기'),
-              content: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextField(
-                        onChanged: (value) {
-                          _title = value;
-                        },
-                        decoration: InputDecoration(hintText: '제목'),
-                      ),
-                      Row(
-                        children: [
-                          Text('마감일:'),
-                          TextButton(
-                            onPressed: () async {
-                              DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: _deadlineDate,
-                                firstDate: DateTime.now(),
-                                lastDate: DateTime(2100),
-                              );
-                              if (pickedDate != null) {
-                                setState(() {
-                                  _deadlineDate = pickedDate;
-                                });
-                              }
-                            },
-                            child: Text('${_deadlineDate.toLocal()}'.split(' ')[0]),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _selectedColor = 0;
-                              });
-                            },
-                            child: CircleAvatar(
-                              backgroundColor: firstCategoryColor,
-                              child: selectedIcon(0),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _selectedColor = 1;
-                              });
-                            },
-                            child: CircleAvatar(
-                              backgroundColor: secondCategoryColor,
-                              child: selectedIcon(1),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _selectedColor = 2;
-                              });
-                            },
-                            child: CircleAvatar(
-                              backgroundColor: thirdCategoryColor,
-                              child: selectedIcon(2),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _selectedColor = 3;
-                              });
-                            },
-                            child: CircleAvatar(
-                              backgroundColor: fourthCategoryColor,
-                              child: selectedIcon(3),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _selectedColor = 4;
-                              });
-                            },
-                            child: CircleAvatar(
-                              backgroundColor: fivethCategoryColor,
-                              child: selectedIcon(4),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+        return DraggableScrollableSheet(
+          expand: false,
+          initialChildSize: 0.5,
+          minChildSize: 0.5,
+          maxChildSize: 0.9,
+          builder: (BuildContext context, ScrollController scrollController) {
+            return StatefulBuilder(
+              builder: (context, setState) {
+                return Padding(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom,
+                    left: 16.0,
+                    right: 16.0,
+                    top: 16.0,
                   ),
-                ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('취소'),
-                ),
-                TextButton(
-                  onPressed: () async {
-                    final newTask = TaskItem(
-                      null,
-                      _title,
-                      DateTime.now(),
-                      _deadlineDate,
-                      _selectedColor,
-                    );
+                  child: SingleChildScrollView(
+                    controller: scrollController,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          '일정 추가하기',
+                          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 16),
+                        TextField(
+                          controller: _titleController,
+                          onChanged: (value) {
+                            _title = value;
+                          },
+                          decoration: InputDecoration(
+                            hintText: '제목',
+                            labelText: '제목',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        Row(
+                          children: [
+                            Text('시작일:'),
+                            TextButton(
+                              onPressed: () async {
+                                DateTime? pickedDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: _startDate,
+                                  firstDate: DateTime.now(),
+                                  lastDate: DateTime(2100),
+                                );
+                                if (pickedDate != null) {
+                                  setState(() {
+                                    _startDate = pickedDate;
+                                  });
+                                }
+                              },
+                              child: Text('${_startDate.toLocal()}'.split(' ')[0]),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text('마감일:'),
+                            TextButton(
+                              onPressed: () async {
+                                DateTime? pickedDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: _deadlineDate,
+                                  firstDate: DateTime.now(),
+                                  lastDate: DateTime(2100),
+                                );
+                                if (pickedDate != null) {
+                                  setState(() {
+                                    _deadlineDate = pickedDate;
+                                  });
+                                }
+                              },
+                              child: Text('${_deadlineDate.toLocal()}'.split(' ')[0]),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 16),
+                        Text('카테고리 선택:'),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _selectedColor = 0;
+                                });
+                              },
+                              child: CircleAvatar(
+                                backgroundColor: firstCategoryColor,
+                                child: selectedIcon(0),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _selectedColor = 1;
+                                });
+                              },
+                              child: CircleAvatar(
+                                backgroundColor: secondCategoryColor,
+                                child: selectedIcon(1),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _selectedColor = 2;
+                                });
+                              },
+                              child: CircleAvatar(
+                                backgroundColor: thirdCategoryColor,
+                                child: selectedIcon(2),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _selectedColor = 3;
+                                });
+                              },
+                              child: CircleAvatar(
+                                backgroundColor: fourthCategoryColor,
+                                child: selectedIcon(3),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _selectedColor = 4;
+                                });
+                              },
+                              child: CircleAvatar(
+                                backgroundColor: fivethCategoryColor,
+                                child: selectedIcon(4),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('취소'),
+                            ),
+                            TextButton(
+                              onPressed: () async {
+                                if (_title.isEmpty) {
+                                  Fluttertoast.showToast(
+                                    msg: '제목을 입력하세요.',
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    backgroundColor: Colors.grey,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0,
+                                  );
+                                  return;
+                                }
 
-                    await _hiveHelper.addTask(newTask);
-                    _scheduleTaskNotifications(newTask);
+                                if (_startDate.isAfter(_deadlineDate)) {
+                                  Fluttertoast.showToast(
+                                    msg: '시작일은 마감일보다 늦을 수 없습니다!',
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    backgroundColor: Colors.grey,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0,
+                                  );
+                                  return;
+                                }
 
-                    print('일정 추가 버튼 클릭됨');
-                    _loadTasks();
+                                final newTask = TaskItem(
+                                  null,
+                                  _title,
+                                  _startDate,
+                                  _deadlineDate,
+                                  _selectedColor,
+                                );
 
-                    Navigator.of(context).pop();
-                    Fluttertoast.showToast(
-                      msg: '일정이 추가되었습니다.',
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: Colors.grey,
-                      textColor: Colors.white,
-                      fontSize: 16.0,
-                    );
-                  },
-                  child: Text('추가'),
-                ),
-              ],
+                                await _hiveHelper.addTask(newTask);
+                                _scheduleTaskNotifications(newTask);
+
+                                print('일정 추가 버튼 클릭됨');
+                                _loadTasks();
+
+                                Navigator.of(context).pop();
+                                Fluttertoast.showToast(
+                                  msg: '일정이 추가되었습니다.',
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: Colors.grey,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0,
+                                );
+                              },
+                              child: Text('추가'),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
             );
           },
         );
       },
     );
   }
+
 }
 //TODO modify _showdialog : error, UI, selected days
 

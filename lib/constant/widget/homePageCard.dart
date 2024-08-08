@@ -22,7 +22,7 @@ class HomePageCard extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(8),
           color: white,
         ),
         child:  ListTile(
@@ -33,7 +33,7 @@ class HomePageCard extends StatelessWidget {
             },
             fillColor: WidgetStateProperty.resolveWith((states) {
               if (states.contains(WidgetState.selected)) {
-                return purple400;
+                return main400;
               }
               return null;
             }),
@@ -50,7 +50,7 @@ class HomePageCard extends StatelessWidget {
               decoration: task.isCompleted ? TextDecoration.lineThrough : TextDecoration.none,
               fontFamily: "NanumBarunpen",
               fontWeight: FontWeight.bold,
-              color: checkColor(task.colorCategory),
+              color: black,
             ),
           ),
           subtitle: Text(
