@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_list/constant/fonts.dart';
+import 'package:to_do_list/constant/widget/taskDialog.dart';
 import 'package:to_do_list/data/task_item.dart';
 import 'package:to_do_list/constant/color.dart';
 
@@ -26,6 +27,14 @@ class HomePageCard extends StatelessWidget {
           color: white,
         ),
         child:  ListTile(
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return TaskDialog(task: task);
+              },
+            );
+          },
           leading: Checkbox(
             value: task.isCompleted,
             onChanged: (value) {

@@ -53,12 +53,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
-// 알림 중지
+
   void _pauseScheduledNotifications() async {
     await FlutterLocalNotification.cancelAllNotifications();
   }
 
-// 알림 복구
+
   void _restoreScheduledNotifications() async {
     final tasks = await _hiveHelper.getAllTasks();
     for (final task in tasks) {

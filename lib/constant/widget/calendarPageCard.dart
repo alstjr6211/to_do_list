@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_list/constant/widget/taskDialog.dart';
 import 'package:to_do_list/data/task_item.dart';
 import 'package:to_do_list/constant/color.dart';
 
@@ -22,6 +23,14 @@ class CalendarPageCard extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
 
         child: ListTile(
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return TaskDialog(task: task);
+              },
+            );
+          },
           leading: Checkbox(
             value: task.isCompleted,
             onChanged: (value) {

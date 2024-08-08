@@ -44,13 +44,11 @@ class HiveHelper {
     await box.delete(key);
   }
 
-  // 알림 상태 저장
   Future<void> saveNotificationStatus(bool status) async {
     final box = Hive.box('Status_Box');
     await box.put(notificationKey, status);
   }
 
-  // 알림 상태 복구
   bool getNotificationStatus() {
     final box = Hive.box('Status_Box');
     return box.get(notificationKey, defaultValue: true);
